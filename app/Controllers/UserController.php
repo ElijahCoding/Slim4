@@ -30,6 +30,6 @@ class UserController
 
         $user = $query->fetch(PDO::FETCH_OBJ);
 
-        return $response;
+        return $this->container->get('view')->render($response, 'users/show.twig', compact('user'));
     }
 }
