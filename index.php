@@ -3,6 +3,7 @@
 use DI\Container;
 use Slim\Factory\AppFactory;
 use Slim\Middleware\ErrorMiddleware;
+use Slim\Routing\RouteCollectorProxy;
 use Slim\Views\{
     TwigMiddleware, Twig
 };
@@ -43,12 +44,20 @@ $app->get('/', function (Request $request, Response $response, $args) {
 })
     ->setName('home');
 
+$app->group('/users/{username}', function (RouteCollectorProxy $group) {
+    $group->get('', function (Request $request, Response $response, $args) {
+        return $this->get('view')->render($response, 'profile.twig', [
+            'username' => $args['username']
+        ]);
+    });
 
-$app->get('/users/{username}', function (Request $request, Response $response, $args) {
-    return $this->get('view')->render($response, 'profile.twig', [
-        'username' => $args['username']
-    ]);
+    $group->get('/posts/{id}', function (Request $request, Response $response, $args) {
+        return $this->get('view')->render($response, 'posts.twig', [
+            'id' => $args['id']
+        ]);
+    });
 });
+
 
 
 $app->run();
