@@ -33,15 +33,19 @@ $twig = new Twig('views', [
 $twigMiddleware = new TwigMiddleware(
     $twig,
     $container,
-    $app->getRouteCollector()->getRouteParser(),
-    '/'
+    $app->getRouteCollector()->getRouteParser()
 );
 
 $app->add($twigMiddleware);
 
 $app->get('/', function (Request $request, Response $response, $args) {
     return $this->get('view')->render($response, 'home.twig');
-});
+})
+    ->setName('home');
 
+$app->get('/about', function (Request $request, Response $response, $args) {
+    return $this->get('view')->render($response, 'about.twig');
+})
+    ->setName('about');
 
 $app->run();
