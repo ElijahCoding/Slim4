@@ -1,5 +1,10 @@
 <?php
 
+use Slim\Middleware\ErrorMiddleware;
+use Slim\Views\{
+    TwigMiddleware, Twig
+};
+
 $errorMiddleware = new ErrorMiddleware(
     $app->getCallableResolver(),
     $app->getResponseFactory(),

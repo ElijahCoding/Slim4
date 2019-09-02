@@ -1,5 +1,12 @@
 <?php
 
+use Slim\Factory\AppFactory;
+
+// Container before creating apps
+require 'container.php';
+
 $app = AppFactory::create();
 
-$app->run();
+require 'middleware.php';
+
+require '../routes/web.php';
