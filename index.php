@@ -3,6 +3,9 @@
 use DI\Container;
 use Slim\Factory\AppFactory;
 use Slim\Middleware\ErrorMiddleware;
+use Slim\Views\{
+    TwigMiddleware, Twig
+};
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -23,20 +26,21 @@ $errorMiddleware = new ErrorMiddleware(
 
 $app->add($errorMiddleware);
 
-$container->set('hello', function () {
-    return 'inside hello';
-});
+$twig = new Twig('views', [
+    'cache' => false
+]);
+
+$twigMiddleware = new TwigMiddleware(
+    $twig,
+    $container,
+    $app->getRouteCollector()->getRouteParser(),
+    '/'
+);
+
+$app->add($twigMiddleware);
 
 $app->get('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write(
-        $this->get('hello')
-    );
-    return $response;
-});
-
-$app->get('/about', function (Request $request, Response $response, $args) {
-    $response->getBody()->write("about page");
-    return $response;
+    return $this->get('view')->render($response, 'home.twig');
 });
 
 
