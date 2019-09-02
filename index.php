@@ -39,13 +39,25 @@ $twigMiddleware = new TwigMiddleware(
 $app->add($twigMiddleware);
 
 $app->get('/', function (Request $request, Response $response, $args) {
+    $data = $request->getQueryParams();
+    var_dump($data);
+    die();
+
     return $this->get('view')->render($response, 'home.twig');
 })
     ->setName('home');
 
-$app->get('/about', function (Request $request, Response $response, $args) {
-    return $this->get('view')->render($response, 'about.twig');
+$app->get('/contact', function (Request $request, Response $response, $args) {
+    return $this->get('view')->render($response, 'contact.twig');
 })
-    ->setName('about');
+    ->setName('contact');
+
+$app->post('/contact', function (Request $request, Response $response, $args) {
+    $data = $request->getParsedBody();
+
+    $response->getBody()->write($data['name']);
+
+    return $response;
+});
 
 $app->run();
