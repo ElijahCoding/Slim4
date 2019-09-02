@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use PDO;
+use Slim\Exception\HttpNotFoundException;
 use DI\Container;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -27,6 +28,10 @@ class UserController
         $query->execute([
             'username' => $args['username']
         ]);
+
+        if ($query->rowCount() === 0) {
+            throw new HttpNotFoundException($request);
+        }
 
         $user = $query->fetch(PDO::FETCH_OBJ);
 
