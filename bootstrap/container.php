@@ -2,7 +2,9 @@
 
 use DI\Container;
 use Slim\Factory\AppFactory;
-use App\Controllers\HomeController;
+use App\Controllers\{
+    HomeController, UserController
+};
 
 $container = new Container();
 AppFactory::setContainer($container);
@@ -13,4 +15,8 @@ $container->set('db', function () {
 
 $container->set(HomeController::class, function ($container) {
     return new HomeController($container);
+});
+
+$container->set(UserController::class, function ($container) {
+    return new UserController($container);
 });
