@@ -15,7 +15,7 @@ class HomeController
         $this->container = $container;
     }
 
-    public function index(Request $request, Response $response)
+    public function __invoke(Request $request, Response $response)
     {
         return $this->container->get('view')->render($response, 'home.twig');
     }
