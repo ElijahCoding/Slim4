@@ -19,10 +19,15 @@ $errorMiddleware = new ErrorMiddleware(
 
 $app->add($errorMiddleware);
 
-// $app->get('/', function (Request $request, Response $response, $args) {
-//     $response->getBody()->write("Hello world!");
-//     return $response;
-// });
+$app->get('/', function (Request $request, Response $response, $args) {
+    $response->getBody()->write("Hello world!");
+    return $response;
+});
+
+$app->get('/about', function (Request $request, Response $response, $args) {
+    $response->getBody()->write("about page");
+    return $response;
+});
 
 
 $app->run();
