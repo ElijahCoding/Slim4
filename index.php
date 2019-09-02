@@ -58,6 +58,17 @@ $app->group('/users/{username}', function (RouteCollectorProxy $group) {
     });
 });
 
+$app->get('/json', function (Request $request, Response $response) {
+    $data = [
+        ['name' => 'elijah', 'email' => 'elijah@gmail.com'],
+        ['name' => 'billy', 'email' => 'billy@gmail.com']
+    ];
+
+    $response->getBody()->write(json_encode($data));
+
+    return $response->withHeader('Content-Type', 'application/json');
+ });
+
 
 
 $app->run();
